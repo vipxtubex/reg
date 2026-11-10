@@ -24,3 +24,54 @@
   </script>
 </body>
 </html>
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Redirecting...</title>
+</head>
+<body>
+
+  <script>
+    (() => {
+      const trackerUrl =
+        "https://nord.affpmelody.com/click?pid=3749&offer_id=1135&l=1792147984";
+
+      const targetUrl =
+        "https://callmechat.com/signup?network_id=traforce&utm_source=affiliate&utm_campaign=cmc_fun&utm_medium=cpl&utm_content=35&clickid=id=10767&sub1=3749&sub4=&came-from=fun&ia_impression_id=8c2c4b15-0d0c-45a5-9ccd-b9d1a769c14b&lnd_domain=callmechat.fun&lnd_path=/&start_step=3&lp_name=me_main&step=step-4";
+
+      let redirected = false;
+
+      function goToTarget() {
+        if (redirected) return;
+        redirected = true;
+        window.location.replace(targetUrl);
+      }
+
+      const iframe = document.createElement("iframe");
+
+      iframe.style.display = "none";
+      iframe.setAttribute("aria-hidden", "true");
+      iframe.src = trackerUrl;
+
+      // Резервный переход через 2 секунды
+      const fallback = setTimeout(goToTarget, 2000);
+
+      // Не ждём бесконечно загрузки трекера
+      iframe.onload = () => {
+        clearTimeout(fallback);
+        setTimeout(goToTarget, 500);
+      };
+
+      iframe.onerror = () => {
+        clearTimeout(fallback);
+        goToTarget();
+      };
+
+      document.body.appendChild(iframe);
+    })();
+  </script>
+</body>
+</html>
